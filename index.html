@@ -3,17 +3,27 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>Reflex: Intergalactic Pinball Idlecore</title>
-  <link rel="stylesheet" href="style.css?v=4.1" />
+  <title>Reflex v5.0 Preview</title>
+  <link rel="stylesheet" href="style.css?v=5.0" />
 </head>
 <body>
   <div class="container">
-    <h1>Reflex: Intergalactic Pinball Idlecore</h1>
-    <button id="clickBtn">Insert Token</button>
-    <p>Pinballs: <span id="score">0</span> | Wizard Dust: <span id="dust">0</span> | Passive: <span id="autoRate">0</span>/sec</p>
-    <div id="upgrades"></div>
-    <p class="version">v4.1</p>
+    <div id="startScreen">
+      <h1>REFLEX</h1>
+      <p>INTERGALACTIC PINBALL IDLECORE</p>
+      <h2>Ball 1</h2>
+      <p class="flash">SHOOT AGAIN</p>
+      <button onclick="startGame()">Start</button>
+    </div>
+    <div id="gameScreen" style="display:none">
+      <h1>Reflex: Idlecore</h1>
+      <button id="clickBtn">Flip!</button>
+      <p>Pinballs: <span id="score">0</span> | Wizard Dust: <span id="dust">0</span> | Combo: <span id="combo">x1</span></p>
+      <p>Passive: <span id="autoRate">0</span>/sec</p>
+      <div id="upgrades"></div>
+      <p class="version">v5.0 Preview</p>
+    </div>
   </div>
-  <script src="script.js?v=4.1"></script>
+  <script src="script.js?v=5.0"></script>
 </body>
 </html>

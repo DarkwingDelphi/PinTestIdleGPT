@@ -2,23 +2,21 @@ let score = 0;
 let pinballsPerClick = 1;
 let autoRate = 0;
 let boneDust = 0;
+let combo = 1;
+let comboStreak = 0;
 let upgrades = [];
 
-const scoreEl = document.getElementById("score");
-const dustEl = document.getElementById("dust");
-const autoRateEl = document.getElementById("autoRate");
-const clickBtn = document.getElementById("clickBtn");
-const upgradesEl = document.getElementById("upgrades");
-
-clickBtn.addEventListener("click", () => {
-  score += pinballsPerClick;
+function startGame() {
+  document.getElementById("startScreen").style.display = "none";
+  document.getElementById("gameScreen").style.display = "block";
   updateDisplay();
-});
+}
 
 function updateDisplay() {
-  scoreEl.textContent = score;
-  dustEl.textContent = boneDust;
-  autoRateEl.textContent = autoRate.toFixed(1);
+  document.getElementById("score").textContent = Math.floor(score);
+  document.getElementById("dust").textContent = boneDust;
+  document.getElementById("combo").textContent = "x" + combo;
+  document.getElementById("autoRate").textContent = autoRate.toFixed(1);
   updateUpgradeButtons();
 }
 
@@ -37,6 +35,7 @@ function addUpgrade(name, baseCost, effectGen, unlockCondition, tooltip) {
 }
 
 function renderUpgradeButtons() {
+  const upgradesEl = document.getElementById("upgrades");
   upgrades.forEach(upg => {
     const btn = document.createElement("button");
     btn.textContent = `${upg.name}`;
@@ -46,11 +45,11 @@ function renderUpgradeButtons() {
         score -= upg.cost;
         upg.level += 1;
         upg.effectGen(upg.level);
-        upg.cost = Math.floor(upg.cost * 1.5);
+        upg.cost = Math.floor(upg.cost * 1.7);
         updateDisplay();
       }
     };
-    btn.style.display = "none";
+    btn.style.display = "inline-block";
     upg.button = btn;
     upgradesEl.appendChild(btn);
   });
@@ -58,37 +57,33 @@ function renderUpgradeButtons() {
 
 function updateUpgradeButtons() {
   upgrades.forEach(upg => {
-    if (upg.unlockCondition()) {
+    if (upg.unlockCondition() || upg.unlocked) {
       upg.unlocked = true;
       const btn = upg.button;
-      btn.style.display = "inline-block";
       btn.textContent = `${upg.name} Lv${upg.level} (${upg.cost})`;
-      btn.className = score >= upg.cost ? "available" : "";
+      btn.className = score >= upg.cost ? "available" : "unavailable";
       btn.disabled = score < upg.cost;
-    } else {
-      if (upg.button) upg.button.style.display = "none";
     }
   });
 }
 
-// Add example upgrades
-addUpgrade("Click Booster", 50, lvl => {
-  pinballsPerClick = 1 + lvl;
-  autoRate += 0.2;
-}, () => score >= 25, "+1/click, +0.2/sec");
-
-addUpgrade("Passive Trickler", 10, lvl => {
-  autoRate += 0.5;
-}, () => true, "+0.5/sec");
-
-addUpgrade("Basic Generator", 100, lvl => {
-  autoRate += 1;
-}, () => score >= 75, "+1/sec");
-
-renderUpgradeButtons();
-updateDisplay();
+document.getElementById("clickBtn").addEventListener("click", () => {
+  score += pinballsPerClick * combo;
+  comboStreak++;
+  if (comboStreak % 10 === 0) combo++;
+  updateDisplay();
+});
 
 setInterval(() => {
   score += autoRate;
+  combo = 1;
+  comboStreak = 0;
   updateDisplay();
 }, 1000);
+
+addUpgrade("Multiball Entry Lane", 25, lvl => { pinballsPerClick += 1; autoRate += 0.2; }, () => score >= 10, "Boosts click +0.2/sec");
+addUpgrade("Left Orbit Loop", 100, lvl => { autoRate += 1; }, () => score >= 75, "Passive gain +1/sec");
+addUpgrade("Encore Flipper", 250, lvl => { pinballsPerClick += 2; }, () => score >= 150, "+2/click power");
+
+renderUpgradeButtons();
+updateDisplay();
