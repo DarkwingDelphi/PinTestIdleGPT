@@ -27,6 +27,11 @@ button.unavailable {
 button#clickBtn {
   background-color: #3498db;
   font-weight: bold;
+  position: fixed;
+  bottom: 1em;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 90%;
 }
 .flash {
   color: #ff0;
@@ -40,15 +45,4 @@ button#clickBtn {
   font-size: 0.8em;
   color: #888;
   margin-top: 2em;
-}
-
-html, body {
-  touch-action: manipulation;
-  -ms-touch-action: manipulation;
-  -webkit-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-}
-button {
-  touch-action: manipulation;
 }

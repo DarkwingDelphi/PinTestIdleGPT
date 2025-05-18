@@ -1,22 +1,17 @@
 let score = 0;
-let pinballsPerClick = 1;
+let clickPower = 1;
 let autoRate = 0;
 let boneDust = 0;
 let combo = 1;
 let comboStreak = 0;
 let upgrades = [];
 
-function startGame() {
-  document.getElementById("startScreen").style.display = "none";
-  document.getElementById("gameScreen").style.display = "block";
-  updateDisplay();
-}
-
 function updateDisplay() {
   document.getElementById("score").textContent = Math.floor(score);
   document.getElementById("dust").textContent = boneDust;
   document.getElementById("combo").textContent = "x" + combo;
   document.getElementById("autoRate").textContent = autoRate.toFixed(1);
+  document.getElementById("clickPower").textContent = clickPower;
   updateUpgradeButtons();
 }
 
@@ -68,7 +63,7 @@ function updateUpgradeButtons() {
 }
 
 document.getElementById("clickBtn").addEventListener("click", () => {
-  score += pinballsPerClick * combo;
+  score += clickPower * combo;
   comboStreak++;
   if (comboStreak % 10 === 0) combo++;
   updateDisplay();
@@ -81,9 +76,9 @@ setInterval(() => {
   updateDisplay();
 }, 1000);
 
-addUpgrade("Multiball Entry Lane", 25, lvl => { pinballsPerClick += 1; autoRate += 0.2; }, () => score >= 10, "Boosts click +0.2/sec");
-addUpgrade("Left Orbit Loop", 100, lvl => { autoRate += 1; }, () => score >= 75, "Passive gain +1/sec");
-addUpgrade("Encore Flipper", 250, lvl => { pinballsPerClick += 2; }, () => score >= 150, "+2/click power");
+addUpgrade("Multiball Entry Lane", 25, lvl => { clickPower += 1; autoRate += 0.2; }, () => score >= 10, "Adds +1 Click Power, +0.2/sec");
+addUpgrade("Left Orbit Loop", 100, lvl => { autoRate += 1; }, () => score >= 75, "Passive generation +1/sec");
+addUpgrade("Encore Flipper", 250, lvl => { clickPower += 2; }, () => score >= 150, "Adds +2 Click Power");
 
 renderUpgradeButtons();
 updateDisplay();
