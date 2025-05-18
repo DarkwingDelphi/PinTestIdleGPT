@@ -9,6 +9,7 @@ body {
   text-align: center;
   padding: 2em;
   touch-action: manipulation;
+  -ms-touch-action: manipulation;
 }
 
 .container {
@@ -27,6 +28,7 @@ button {
   margin: 1em;
   cursor: pointer;
   touch-action: manipulation;
+  -ms-touch-action: manipulation;
 }
 
 button:hover {
