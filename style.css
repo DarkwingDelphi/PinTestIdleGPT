@@ -23,3 +23,8 @@ button {
 button:hover {
   background-color: #66fcf1;
 }
+.version {
+  font-size: 0.8em;
+  color: #888;
+  margin-top: 1em;
+}
