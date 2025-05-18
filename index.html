@@ -6,7 +6,7 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-touch-fullscreen" content="yes">
   <title>Reflex: Intergalactic Pinball Idlecore</title>
-  <link rel="stylesheet" href="style.css?v=3.9" />
+  <link rel="stylesheet" href="style.css?v=4.0" />
   <style>
     .version { font-size: 0.8em; color: #888; margin-top: 1em; }
     .toggle-section { cursor: pointer; font-weight: bold; color: #66fcf1; margin-top: 10px; }
@@ -16,6 +16,11 @@
 </head>
 <body ontouchstart="">
   <div class="container">
+  <div id="tutorial" style="background:#222; padding:10px; margin-bottom:10px; border-left:4px solid #66fcf1;">
+    Welcome! Tap the big blue button to earn Pinballs.<br>
+    Spend them on upgrades to earn faster. Your goal is to unlock every machine.
+  </div>
+  <div id="goalMessage" style="font-weight:bold; color:#66fcf1; margin-bottom:10px;"></div>
     <h1>Reflex: Intergalactic Pinball Idlecore</h1>
     <button id="clickBtn" style="font-size: 1.4em;">Insert Token</button>
     <p>Pinballs: <span id="score">0</span> | Wizard Dust: <span id="dust">0</span> | Passive: <span id="autoRate">0</span>/sec</p>
@@ -34,8 +39,8 @@
     <button onclick="toggleGlossary()">Upgrade Glossary</button>
     <div id="glossaryBox" class="glossary"></div>
 
-    <p class="version">v3.9</p>
+    <p class="version">v4.0</p>
   </div>
-  <script src="script.js?v=3.9"></script>
+  <script src="script.js?v=4.0"></script>
 </body>
 </html>

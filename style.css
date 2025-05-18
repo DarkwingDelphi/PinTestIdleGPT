@@ -1,61 +1,57 @@
+
 html {
   -webkit-text-size-adjust: 100%;
 }
-
 body {
   font-family: monospace;
-  background-color: #0b0c10;
-  color: #c5c6c7;
+  background-color: #1c1c1c;
+  color: #ddd;
   text-align: center;
-  padding: 2em;
-  touch-action: manipulation;
-  -ms-touch-action: manipulation;
+  padding: 1em;
 }
-
 .container {
-  border: 1px solid #45a29e;
-  padding: 2em;
-  border-radius: 10px;
-  background-color: #1f2833;
+  margin: 0 auto;
+  max-width: 500px;
 }
-
 button {
-  background-color: #45a29e;
-  border: none;
-  padding: 10px 20px;
-  color: white;
-  font-size: 16px;
-  margin: 1em;
+  background-color: #444;
+  border: 1px solid #888;
+  padding: 8px 16px;
+  color: #fff;
+  font-size: 1em;
+  margin: 0.5em 0;
+  width: 90%;
+}
+button.available {
+  background-color: #2ecc71;
+}
+button#clickBtn {
+  background-color: #3498db;
+  font-size: 1.4em;
+  font-weight: bold;
+}
+.toggle-section {
   cursor: pointer;
-  touch-action: manipulation;
-  -ms-touch-action: manipulation;
+  font-weight: bold;
+  color: #66fcf1;
+  margin-top: 10px;
 }
-
-button:hover {
-  background-color: #66fcf1;
-}
-
-.version {
+.tooltip {
   font-size: 0.8em;
-  color: #888;
+  color: #bbb;
+}
+.glossary {
+  display: none;
+  background: #111;
+  color: #ccc;
+  padding: 10px;
+  border: 1px solid #444;
+  max-height: 200px;
+  overflow-y: auto;
   margin-top: 1em;
 }
-
-button:disabled {
-  background-color: #555;
-  cursor: not-allowed;
-}
-
-.summary {
-  font-size: 0.9em;
-  color: #aaa;
-  margin-bottom: 1em;
-}
-
-button {
-  margin: 0.3em;
-  min-width: 240px;
-}
-.toggle-section + div {
-  margin-bottom: 0.5em;
+.version {
+  font-size: 0.7em;
+  color: #555;
+  margin-top: 2em;
 }

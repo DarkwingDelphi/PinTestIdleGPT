@@ -1,203 +1,82 @@
+
 let score = 0;
 let pinballsPerClick = 1;
 let autoRate = 0;
 let boneDust = 0;
-let upgradeCount = 0;
+let upgrades = [];
 
 const scoreEl = document.getElementById("score");
+const dustEl = document.getElementById("dust");
 const autoRateEl = document.getElementById("autoRate");
 const clickBtn = document.getElementById("clickBtn");
-const messageBox = document.getElementById("messageBox");
-const logBox = document.getElementById("logBox");
-const dustEl = document.getElementById("dust");
-
 const clickUpgradesEl = document.getElementById("clickUpgrades");
 const passiveUpgradesEl = document.getElementById("passiveUpgrades");
 const specialUpgradesEl = document.getElementById("specialUpgrades");
-
-let upgrades = [];
+const glossaryBox = document.getElementById("glossaryBox");
 
 clickBtn.addEventListener("click", () => {
   score += pinballsPerClick;
-  updateScore();
-  maybeDropDust();
-  idleTime = 0;
-  logMessage("Clicked token: +" + pinballsPerClick + " pinballs");
+  updateDisplay();
 });
 
-function updateScore() {
-  autoRateEl.textContent = autoRate.toFixed(1);
+function updateDisplay() {
   scoreEl.textContent = score;
   dustEl.textContent = boneDust;
-  updateUpgradeStates();
-  checkUpgradeUnlocks();
+  autoRateEl.textContent = autoRate.toFixed(1);
+  updateUpgradeButtons();
 }
 
-function logMessage(msg) {
-  const entry = document.createElement("div");
-  entry.textContent = msg;
-  logBox.appendChild(entry);
-  logBox.scrollTop = logBox.scrollHeight;
-}
-
-function showMessage(msg) {
-  messageBox.innerText = msg;
-  logMessage(msg);
-  setTimeout(() => { messageBox.innerText = ""; }, 5000);
-}
-
-function maybeDropDust() {
-  if (Math.random() < 0.01) {
-    boneDust += 1;
-    showMessage("You found the Dust of Pinball Wizard Bones!");
-  }
-}
-
-function addUpgrade(name, baseCost, effectGen, unlockCondition, flavor, category) {
-  upgrades.push({
+function addUpgrade(name, baseCost, effectGen, unlockCondition, tooltip, category) {
+  const upgrade = {
     name,
-    baseCost,
     cost: baseCost,
     level: 0,
     effectGen,
-    flavor,
+    tooltip,
     unlocked: false,
     unlockCondition,
     category,
     button: null
-  });
+  };
+  upgrades.push(upgrade);
 }
 
-function checkUpgradeUnlocks() {
-  upgrades.forEach((u, i) => {
-    if (!u.unlocked && u.unlockCondition()) {
-      u.unlocked = true;
-      const btn = document.createElement("button");
-      btn.setAttribute("data-upgrade-index", i);
-      const updateBtnLabel = () => {
-        btn.textContent = `${u.name} (Cost: ${u.cost}) [Level ${u.level}]`;
-        btn.disabled = score < u.cost;
-      };
-      updateBtnLabel();
-
-      btn.addEventListener("click", () => {
-        if (score >= u.cost) {
-          score -= u.cost;
-          u.level += 1;
-          u.effectGen(u.level);
-          u.cost = Math.floor(u.baseCost * Math.pow(1.5, u.level));
-          updateScore();
-          updateBtnLabel();
-          showMessage(`${u.name} Lv${u.level}: ${u.flavor}`);
-        } else {
-          showMessage("Not enough pinballs.");
-        }
-      });
-
-      u.button = btn;
-
-      if (u.category === "click") {
-        clickUpgradesEl.appendChild(btn);
-      } else if (u.category === "passive") {
-        passiveUpgradesEl.appendChild(btn);
-      } else {
-        specialUpgradesEl.appendChild(btn);
+function renderUpgradeButtons() {
+  upgrades.forEach(upg => {
+    const btn = document.createElement("button");
+    btn.textContent = `${upg.name}`;
+    btn.title = upg.tooltip;
+    btn.onclick = () => {
+      if (score >= upg.cost) {
+        score -= upg.cost;
+        upg.level += 1;
+        upg.effectGen(upg.level);
+        upg.cost = Math.floor(upg.cost * 1.5);
+        btn.textContent = `${upg.name} Lv${upg.level} (${upg.cost})`;
+        updateDisplay();
       }
-    }
+    };
+    btn.style.display = "none";
+    upg.button = btn;
+    const container = upg.category === "click" ? clickUpgradesEl : upg.category === "passive" ? passiveUpgradesEl : specialUpgradesEl;
+    container.appendChild(btn);
   });
 }
 
-function updateUpgradeStates() {
-  upgrades.forEach(u => {
-    if (u.unlocked && u.button) {
-      u.button.disabled = score < u.cost;
-      u.button.textContent = `${u.name} (Cost: ${u.cost}) [Level ${u.level}]`;
+function updateUpgradeButtons() {
+  upgrades.forEach(upg => {
+    if (upg.unlockCondition()) {
+      upg.unlocked = true;
+      const btn = upg.button;
+      btn.style.display = "inline-block";
+      btn.textContent = `${upg.name} Lv${upg.level} (${upg.cost})`;
+      btn.className = score >= upg.cost ? "available" : "";
+      btn.disabled = score < upg.cost;
+    } else {
+      if (upg.button) upg.button.style.display = "none";
     }
   });
 }
-
-// Idle mechanic
-let idleTime = 0;
-setInterval(() => {
-  idleTime++;
-  if (idleTime > 6) {
-    showMessage("A space cat stares into your soul...");
-  }
-  score += autoRate;
-  if (autoRate > 0) {
-    logMessage("Passive income: +" + autoRate + " pinballs");
-  }
-  updateScore();
-}, 1000);
-
-// Define Upgrades
-addUpgrade("Ball Save", 10, level => { autoRate += 0.5; }, () => true, "Each Ball Save adds +0.5/sec passive income.", "passive");
-
-addUpgrade("Cantiello’s Chaos Mode", 50, level => {
-  pinballsPerClick = 1 + level;
-}, () => score >= 25,
-  "Click power grows with each chaotic burst.", "click");
-
-addUpgrade("Herb’s Haunted Encore", 300, level => {
-  pinballsPerClick += 1;
-}, () => score >= 250,
-  "Cabaret ghosts enhance your click force.", "click");
-
-addUpgrade("Hanek's Hype Reactor", 100, level => {
-  autoRate += 1;
-}, () => score >= 75,
-  "Media hype fuels passive generation (+1/sec per upgrade).", "passive");
-
-addUpgrade("Wrist Servo Upgrade", 400, level => {
-  autoRate += 2;
-}, () => score >= 300,
-  "Servo speed increases passive generation (+2/sec).", "passive");
-
-addUpgrade("Buzzcore Table", 200, level => {
-  autoRate += level;
-}, () => score >= 200,
-  "Arcade machines spin with profit. +1/sec per level.", "passive");
-
-addUpgrade("Black Parade Beacon", 1500, level => {
-  autoRate += 5;
-}, () => score >= 1400,
-  "The parade approaches. Earnings increase dramatically.", "special");
-
-
-function toggleLog() {
-  const log = document.getElementById("logBox");
-  const toggle = document.getElementById("logToggle");
-  if (log.style.display === "none") {
-    log.style.display = "block";
-    toggle.textContent = "[- Hide Event Log]";
-  } else {
-    log.style.display = "none";
-    toggle.textContent = "[+ Show Event Log]";
-  }
-}
-
-function updateSummaries() {
-  const clickSummary = upgrades
-    .filter(u => u.category === "click")
-    .map(u => `${u.name}: Lv ${u.level}`)
-    .join(" | ");
-  document.getElementById("clickSummary").textContent = "Upgrades: " + (clickSummary || "None");
-
-  const passiveSummary = upgrades
-    .filter(u => u.category === "passive")
-    .map(u => `${u.name}: Lv ${u.level}`)
-    .join(" | ");
-  document.getElementById("passiveSummary").textContent = "Upgrades: " + (passiveSummary || "None");
-
-  const specialSummary = upgrades
-    .filter(u => u.category === "special")
-    .map(u => `${u.name}: Lv ${u.level}`)
-    .join(" | ");
-  document.getElementById("specialSummary").textContent = "Upgrades: " + (specialSummary || "None");
-}
-
-setInterval(updateSummaries, 1000);
-
 
 function toggleCategory(id) {
   const el = document.getElementById(id);
@@ -205,15 +84,43 @@ function toggleCategory(id) {
 }
 
 function toggleGlossary() {
-  const box = document.getElementById("glossaryBox");
-  if (box.style.display === "none") {
-    box.style.display = "block";
-    let text = "<strong>Upgrade Glossary</strong><br/>";
-    upgrades.forEach(u => {
-      text += `<b>${u.name}</b> Lv${u.level} – ${u.flavor} (Cost: ${u.cost})<br/>`;
-    });
-    box.innerHTML = text;
+  if (glossaryBox.style.display === "none") {
+    glossaryBox.style.display = "block";
+    glossaryBox.innerHTML = upgrades.filter(u => u.unlocked).map(u =>
+      `<b>${u.name}</b>: ${u.tooltip} (Lv${u.level}, Cost: ${u.cost})`).join("<br/>");
   } else {
-    box.style.display = "none";
+    glossaryBox.style.display = "none";
   }
 }
+
+setInterval(() => {
+  score += autoRate;
+  updateDisplay();
+}, 1000);
+
+// Define Upgrades
+addUpgrade("Click Booster", 50, lvl => { pinballsPerClick = 1 + lvl; }, () => score >= 25, "+1/click", "click");
+addUpgrade("Flat Click Bonus", 300, lvl => { pinballsPerClick += 1; }, () => score >= 250, "+1/click flat", "click");
+
+addUpgrade("Passive Trickler", 10, lvl => { autoRate += 0.5; }, () => true, "+0.5/sec", "passive");
+addUpgrade("Basic Generator", 100, lvl => { autoRate += 1; }, () => score >= 75, "+1/sec", "passive");
+addUpgrade("Auto Generator", 200, lvl => { autoRate += lvl; }, () => score >= 200, "+N/sec", "passive");
+
+addUpgrade("Final Unlock", 1500, lvl => { autoRate += 5; }, () => score >= 1400, "+5/sec", "special");
+
+renderUpgradeButtons();
+updateDisplay();
+
+
+function updateGoalMessage() {
+  if (score < 200) {
+    document.getElementById("goalMessage").textContent = "Next Goal: Unlock Auto Generator at 200 Pinballs";
+  } else if (score < 500) {
+    document.getElementById("goalMessage").textContent = "Goal: Reach 500 Pinballs to see new upgrades";
+  } else if (score < 1400) {
+    document.getElementById("goalMessage").textContent = "You're getting close to the Final Unlock...";
+  } else {
+    document.getElementById("goalMessage").textContent = "You're deep in the wizard zone now. Good luck.";
+  }
+}
+setInterval(updateGoalMessage, 1000);
