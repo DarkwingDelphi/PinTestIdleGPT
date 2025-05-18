@@ -33,14 +33,6 @@ button#clickBtn {
   transform: translateX(-50%);
   width: 90%;
 }
-.flash {
-  color: #ff0;
-  font-weight: bold;
-  animation: blink 1s step-start infinite;
-}
-@keyframes blink {
-  50% { opacity: 0; }
-}
 .version {
   font-size: 0.8em;
   color: #888;

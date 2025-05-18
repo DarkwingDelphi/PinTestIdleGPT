@@ -76,9 +76,10 @@ setInterval(() => {
   updateDisplay();
 }, 1000);
 
-addUpgrade("Multiball Entry Lane", 25, lvl => { clickPower += 1; autoRate += 0.2; }, () => score >= 10, "Adds +1 Click Power, +0.2/sec");
-addUpgrade("Left Orbit Loop", 100, lvl => { autoRate += 1; }, () => score >= 75, "Passive generation +1/sec");
-addUpgrade("Encore Flipper", 250, lvl => { clickPower += 2; }, () => score >= 150, "Adds +2 Click Power");
+// Sample upgrades
+addUpgrade("Multiball Entry Lane", 25, lvl => { clickPower += 1; autoRate += 0.2; }, () => score >= 10, "Click Power +1, Passive +0.2/sec");
+addUpgrade("Left Orbit Loop", 100, lvl => { autoRate += 1; }, () => score >= 75, "Passive gain +1/sec");
+addUpgrade("Encore Flipper", 250, lvl => { clickPower += 2; }, () => score >= 150, "Click Power +2");
 
 renderUpgradeButtons();
 updateDisplay();
