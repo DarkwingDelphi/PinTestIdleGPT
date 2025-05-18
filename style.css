@@ -1,16 +1,23 @@
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
 body {
   font-family: monospace;
   background-color: #0b0c10;
   color: #c5c6c7;
   text-align: center;
   padding: 2em;
+  touch-action: manipulation;
 }
+
 .container {
   border: 1px solid #45a29e;
   padding: 2em;
   border-radius: 10px;
   background-color: #1f2833;
 }
+
 button {
   background-color: #45a29e;
   border: none;
@@ -19,7 +26,15 @@ button {
   font-size: 16px;
   margin: 1em;
   cursor: pointer;
+  touch-action: manipulation;
 }
+
 button:hover {
   background-color: #66fcf1;
+}
+
+.version {
+  font-size: 0.8em;
+  color: #888;
+  margin-top: 1em;
 }
