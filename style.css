@@ -40,3 +40,22 @@ button:hover {
   color: #888;
   margin-top: 1em;
 }
+
+button:disabled {
+  background-color: #555;
+  cursor: not-allowed;
+}
+
+.summary {
+  font-size: 0.9em;
+  color: #aaa;
+  margin-bottom: 1em;
+}
+
+button {
+  margin: 0.3em;
+  min-width: 240px;
+}
+.toggle-section + div {
+  margin-bottom: 0.5em;
+}
