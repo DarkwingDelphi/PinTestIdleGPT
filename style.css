@@ -41,3 +41,14 @@ button#clickBtn {
   color: #888;
   margin-top: 2em;
 }
+
+html, body {
+  touch-action: manipulation;
+  -ms-touch-action: manipulation;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+button {
+  touch-action: manipulation;
+}
