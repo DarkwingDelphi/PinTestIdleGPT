@@ -1,0 +1,149 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Reflex: Intergalactic Pinball Idlecore v4.1</title>
+  <style>
+    body {
+      font-family: monospace;
+      background-color: #1c1c1c;
+      color: #ddd;
+      text-align: center;
+      padding: 1em;
+    }
+    .container {
+      margin: 0 auto;
+      max-width: 500px;
+    }
+    button {
+      background-color: #444;
+      border: 1px solid #888;
+      padding: 8px 16px;
+      color: #fff;
+      font-size: 1em;
+      margin: 0.5em 0;
+      width: 90%;
+    }
+    button.available {
+      background-color: #2ecc71;
+    }
+    button#clickBtn {
+      background-color: #3498db;
+      font-size: 1.4em;
+      font-weight: bold;
+    }
+    .version {
+      font-size: 0.7em;
+      color: #555;
+      margin-top: 2em;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Reflex: Intergalactic Pinball Idlecore</h1>
+    <button id="clickBtn">Insert Token</button>
+    <p>Pinballs: <span id="score">0</span> | Wizard Dust: <span id="dust">0</span> | Passive: <span id="autoRate">0</span>/sec</p>
+    <div id="upgrades"></div>
+    <p class="version">v4.1 (Single File)</p>
+  </div>
+  <script>
+    let score = 0;
+    let pinballsPerClick = 1;
+    let autoRate = 0;
+    let boneDust = 0;
+    let upgrades = [];
+
+    const scoreEl = document.getElementById("score");
+    const dustEl = document.getElementById("dust");
+    const autoRateEl = document.getElementById("autoRate");
+    const clickBtn = document.getElementById("clickBtn");
+    const upgradesEl = document.getElementById("upgrades");
+
+    clickBtn.addEventListener("click", () => {
+      score += pinballsPerClick;
+      updateDisplay();
+    });
+
+    function updateDisplay() {
+      scoreEl.textContent = score;
+      dustEl.textContent = boneDust;
+      autoRateEl.textContent = autoRate.toFixed(1);
+      updateUpgradeButtons();
+    }
+
+    function addUpgrade(name, baseCost, effectGen, unlockCondition, tooltip) {
+      const upgrade = {
+        name,
+        cost: baseCost,
+        level: 0,
+        effectGen,
+        tooltip,
+        unlocked: false,
+        unlockCondition,
+        button: null
+      };
+      upgrades.push(upgrade);
+    }
+
+    function renderUpgradeButtons() {
+      upgrades.forEach(upg => {
+        const btn = document.createElement("button");
+        btn.textContent = `${upg.name}`;
+        btn.title = upg.tooltip;
+        btn.onclick = () => {
+          if (score >= upg.cost) {
+            score -= upg.cost;
+            upg.level += 1;
+            upg.effectGen(upg.level);
+            upg.cost = Math.floor(upg.cost * 1.5);
+            updateDisplay();
+          }
+        };
+        btn.style.display = "none";
+        upg.button = btn;
+        upgradesEl.appendChild(btn);
+      });
+    }
+
+    function updateUpgradeButtons() {
+      upgrades.forEach(upg => {
+        if (upg.unlockCondition()) {
+          upg.unlocked = true;
+          const btn = upg.button;
+          btn.style.display = "inline-block";
+          btn.textContent = `${upg.name} Lv${upg.level} (${upg.cost})`;
+          btn.className = score >= upg.cost ? "available" : "";
+          btn.disabled = score < upg.cost;
+        } else {
+          if (upg.button) upg.button.style.display = "none";
+        }
+      });
+    }
+
+    // Add example upgrades
+    addUpgrade("Click Booster", 50, lvl => {
+      pinballsPerClick = 1 + lvl;
+      autoRate += 0.2;
+    }, () => score >= 25, "+1/click, +0.2/sec");
+
+    addUpgrade("Passive Trickler", 10, lvl => {
+      autoRate += 0.5;
+    }, () => true, "+0.5/sec");
+
+    addUpgrade("Basic Generator", 100, lvl => {
+      autoRate += 1;
+    }, () => score >= 75, "+1/sec");
+
+    renderUpgradeButtons();
+    updateDisplay();
+
+    setInterval(() => {
+      score += autoRate;
+      updateDisplay();
+    }, 1000);
+  </script>
+</body>
+</html>
