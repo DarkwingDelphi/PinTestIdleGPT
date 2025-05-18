@@ -1,117 +1,66 @@
 let score = 0;
+let upgrades = [];
+let upgradeCount = 0;
 let pinballsPerClick = 1;
 let autoRate = 0;
-let boneDust = 0;
-let upgradeCount = 0;
+let ballSaves = 0;
 
 const scoreEl = document.getElementById("score");
-const autoRateEl = document.getElementById("autoRate");
 const clickBtn = document.getElementById("clickBtn");
+const upgradesEl = document.getElementById("upgrades");
 const messageBox = document.getElementById("messageBox");
-const logBox = document.getElementById("logBox");
-const dustEl = document.getElementById("dust");
-
-const clickUpgradesEl = document.getElementById("clickUpgrades");
-const passiveUpgradesEl = document.getElementById("passiveUpgrades");
-const specialUpgradesEl = document.getElementById("specialUpgrades");
-
-let upgrades = [];
 
 clickBtn.addEventListener("click", () => {
   score += pinballsPerClick;
   updateScore();
   maybeDropDust();
   idleTime = 0;
-  logMessage("Clicked token: +" + pinballsPerClick + " pinballs");
 });
 
 function updateScore() {
-  autoRateEl.textContent = autoRate.toFixed(1);
   scoreEl.textContent = score;
-  dustEl.textContent = boneDust;
-  updateUpgradeStates();
   checkUpgradeUnlocks();
-}
-
-function logMessage(msg) {
-  const entry = document.createElement("div");
-  entry.textContent = msg;
-  logBox.appendChild(entry);
-  logBox.scrollTop = logBox.scrollHeight;
 }
 
 function showMessage(msg) {
   messageBox.innerText = msg;
-  logMessage(msg);
   setTimeout(() => { messageBox.innerText = ""; }, 5000);
 }
 
 function maybeDropDust() {
   if (Math.random() < 0.01) {
-    boneDust += 1;
     showMessage("You found the Dust of Pinball Wizard Bones!");
   }
 }
 
-function addUpgrade(name, baseCost, effectGen, unlockCondition, flavor, category) {
-  upgrades.push({
-    name,
-    baseCost,
-    cost: baseCost,
-    level: 0,
-    effectGen,
-    flavor,
-    unlocked: false,
-    unlockCondition,
-    category,
-    button: null
-  });
+function addUpgrade(name, cost, effect, unlockCondition, flavor, repeatable = false) {
+  upgrades.push({ name, cost, effect, flavor, unlocked: false, unlockCondition, repeatable });
 }
 
 function checkUpgradeUnlocks() {
   upgrades.forEach((u, i) => {
     if (!u.unlocked && u.unlockCondition()) {
       u.unlocked = true;
+
       const btn = document.createElement("button");
+      btn.textContent = `${u.name} (Cost: ${u.cost})`;
       btn.setAttribute("data-upgrade-index", i);
-      const updateBtnLabel = () => {
-        btn.textContent = `${u.name} (Cost: ${u.cost}) [Level ${u.level}]`;
-        btn.disabled = score < u.cost;
-      };
-      updateBtnLabel();
 
       btn.addEventListener("click", () => {
         if (score >= u.cost) {
           score -= u.cost;
-          u.level += 1;
-          u.effectGen(u.level);
-          u.cost = Math.floor(u.baseCost * Math.pow(1.5, u.level));
+          u.effect();
           updateScore();
-          updateBtnLabel();
-          showMessage(`${u.name} Lv${u.level}: ${u.flavor}`);
+          showMessage(`${u.name}: ${u.flavor}`);
+          if (!u.repeatable) {
+            btn.disabled = true;
+          }
         } else {
           showMessage("Not enough pinballs.");
         }
       });
 
-      u.button = btn;
-
-      if (u.category === "click") {
-        clickUpgradesEl.appendChild(btn);
-      } else if (u.category === "passive") {
-        passiveUpgradesEl.appendChild(btn);
-      } else {
-        specialUpgradesEl.appendChild(btn);
-      }
-    }
-  });
-}
-
-function updateUpgradeStates() {
-  upgrades.forEach(u => {
-    if (u.unlocked && u.button) {
-      u.button.disabled = score < u.cost;
-      u.button.textContent = `${u.name} (Cost: ${u.cost}) [Level ${u.level}]`;
+      upgradesEl.appendChild(btn);
     }
   });
 }
@@ -124,41 +73,42 @@ setInterval(() => {
     showMessage("A space cat stares into your soul...");
   }
   score += autoRate;
-  if (autoRate > 0) {
-    logMessage("Passive income: +" + autoRate + " pinballs");
-  }
   updateScore();
 }, 1000);
 
 // Define Upgrades
-addUpgrade("Ball Save", 10, level => { autoRate += 0.5; }, () => true, "Each Ball Save adds +0.5/sec passive income.", "passive");
+addUpgrade("Ball Save", 10, () => {
+  ballSaves += 1;
+  showMessage(`Ball Save count: ${ballSaves}`);
+}, () => true, "Reflex installs another dome of mercy.", true);
 
-addUpgrade("Cantiello’s Chaos Mode", 50, level => {
-  pinballsPerClick = 1 + level;
-}, () => score >= 25,
-  "Click power grows with each chaotic burst.", "click");
+addUpgrade("Cantiello’s Chaos Mode", 50, () => { pinballsPerClick = 2; }, () => score >= 25,
+  "Reflex channels Jim's manic speed. Clicks now hit double.");
 
-addUpgrade("Herb’s Haunted Encore", 300, level => {
-  pinballsPerClick += 1;
-}, () => score >= 250,
-  "Cabaret ghosts enhance your click force.", "click");
+addUpgrade("Hanek's Hype Reactor", 100, () => { autoRate += 1; }, () => score >= 75,
+  "Media buzz echoes. Reflex now earns pinballs passively.");
 
-addUpgrade("Hanek's Hype Reactor", 100, level => {
-  autoRate += 1;
-}, () => score >= 75,
-  "Media hype fuels passive generation (+1/sec per upgrade).", "passive");
+addUpgrade("Tilt Dampener", 200, () => {}, () => score >= 150,
+  "Rubber shock absorbers installed. You're harder to tilt.");
 
-addUpgrade("Wrist Servo Upgrade", 400, level => {
-  autoRate += 2;
-}, () => score >= 300,
-  "Servo speed increases passive generation (+2/sec).", "passive");
+addUpgrade("Herb’s Haunted Encore", 300, () => { pinballsPerClick += 1; }, () => score >= 250,
+  "Reflex hears cabaret piano in the void. Clicks now earn more.");
 
-addUpgrade("Buzzcore Table", 200, level => {
-  autoRate += level;
-}, () => score >= 200,
-  "Arcade machines spin with profit. +1/sec per level.", "passive");
+addUpgrade("Wrist Servo Upgrade", 400, () => { autoRate += 2; }, () => score >= 300,
+  "Smoother mechanics let Reflex earn more while idle.");
 
-addUpgrade("Black Parade Beacon", 1500, level => {
-  autoRate += 5;
-}, () => score >= 1400,
-  "The parade approaches. Earnings increase dramatically.", "special");
+addUpgrade("Ghost Multiball", 600, () => { pinballsPerClick += 2; }, () => score >= 500,
+  "Spectral multiballs bounce unseen. More per click.");
+
+addUpgrade("Emo Support Bot", 800, () => { autoRate += 3; }, () => score >= 750,
+  "An emo companion arrives. It doesn’t help emotionally. But it helps automate.");
+
+addUpgrade("Cosmic Flipper Fingers", 1000, () => { pinballsPerClick *= 2; }, () => score >= 900,
+  "Reflex’s flippers ascend. Double click power.");
+
+addUpgrade("Black Parade Beacon", 1500, () => { autoRate += 5; }, () => score >= 1400,
+  "The emo creatures march. Reflex is no longer alone...");
+
+setInterval(() => {
+  upgradeCount = upgrades.filter(u => u.unlocked).length;
+}, 5000);
