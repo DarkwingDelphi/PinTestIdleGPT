@@ -1,46 +1,17 @@
 body {
   font-family: monospace;
-  background-color: #0a0a0a;
-  color: #f2f2f2;
+  background-color: black;
+  color: lime;
   text-align: center;
-  padding: 1em;
 }
 .container {
-  max-width: 500px;
+  max-width: 600px;
   margin: auto;
 }
 button {
   background-color: #333;
   color: #fff;
-  border: 1px solid #777;
-  padding: 10px 16px;
-  margin: 0.5em 0;
-  font-size: 1.1em;
-  width: 90%;
-  max-width: 400px;
-}
-button.available {
-  background-color: #2ecc71;
-}
-button.unavailable {
-  background-color: #555;
-  color: #999;
-}
-button#clickBtn {
-  background-color: #3498db;
-  font-weight: bold;
-  position: fixed;
-  bottom: 1em;
-  left: 50%;
-  transform: translateX(-50%);
-}
-.tooltip {
-  font-size: 0.8em;
-  color: #ccc;
-  margin-bottom: 0.2em;
-}
-.version {
-  font-size: 0.8em;
-  color: #888;
-  margin-top: 2em;
+  border: none;
+  padding: 10px 20px;
+  font-size: 18px;
 }
