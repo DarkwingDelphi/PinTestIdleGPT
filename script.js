@@ -1,3 +1,4 @@
+// Placeholder script for Reflex v5.2.2
 let score = 0;
 let clickPower = 1;
 let autoRate = 0;
@@ -79,19 +80,11 @@ setInterval(() => {
   updateDisplay();
 }, 1000);
 
-// Tiered upgrades with lore
-addUpgrade("Flipper Coil Boost", 25, lvl => {
-  clickPower += 1;
-}, () => score >= 10, "Upgrade your fingers. Enhances direct input. (+1 Click Power)");
-
-addUpgrade("Self-Playing Table", 100, lvl => {
-  autoRate += 1;
-}, () => score >= 75, "Your machine starts simulating another. (+1 Passive)");
-
-addUpgrade("Pinball Subnet Node", 250, lvl => {
-  autoRate += 2;
-  boneDust += 1;
-}, () => score >= 200, "Machines network and simulate one another. Generates Wizard Dust.");
+addUpgrade("Plunge Ball", 10, lvl => { clickPower += 1; }, () => score >= 10, "Launches the simulation. +1 Click Power");
+addUpgrade("Pop Bumper Kit", 25, lvl => { autoRate += 0.5; }, () => score >= 20, "Adds motion. +0.5 Passive/sec");
+addUpgrade("Slingshot Recoil", 50, lvl => { clickPower += 1; }, () => score >= 40, "Boosts bursts. +1 Click Power");
+addUpgrade("Drop Targets", 100, lvl => { autoRate += 1; }, () => score >= 75, "Lights bonus lanes. +1 Passive/sec");
+addUpgrade("Spinner Gate", 250, lvl => { autoRate += 2; boneDust += 1; }, () => score >= 150, "Recursive loop spin. +2 Passive/sec, +1 Dust");
 
 renderUpgradeButtons();
 updateDisplay();
