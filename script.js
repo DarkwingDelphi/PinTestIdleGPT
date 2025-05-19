@@ -65,7 +65,10 @@ function updateUpgradeButtons() {
 document.getElementById("clickBtn").addEventListener("click", () => {
   score += clickPower * combo;
   comboStreak++;
-  if (comboStreak % 10 === 0) combo++;
+  if (comboStreak % 10 === 0) {
+    combo++;
+    if (combo >= 5) boneDust += 1;
+  }
   updateDisplay();
 });
 
@@ -76,10 +79,19 @@ setInterval(() => {
   updateDisplay();
 }, 1000);
 
-// Sample upgrades
-addUpgrade("Multiball Entry Lane", 25, lvl => { clickPower += 1; autoRate += 0.2; }, () => score >= 10, "Click Power +1, Passive +0.2/sec");
-addUpgrade("Left Orbit Loop", 100, lvl => { autoRate += 1; }, () => score >= 75, "Passive gain +1/sec");
-addUpgrade("Encore Flipper", 250, lvl => { clickPower += 2; }, () => score >= 150, "Click Power +2");
+// Tiered upgrades with lore
+addUpgrade("Flipper Coil Boost", 25, lvl => {
+  clickPower += 1;
+}, () => score >= 10, "Upgrade your fingers. Enhances direct input. (+1 Click Power)");
+
+addUpgrade("Self-Playing Table", 100, lvl => {
+  autoRate += 1;
+}, () => score >= 75, "Your machine starts simulating another. (+1 Passive)");
+
+addUpgrade("Pinball Subnet Node", 250, lvl => {
+  autoRate += 2;
+  boneDust += 1;
+}, () => score >= 200, "Machines network and simulate one another. Generates Wizard Dust.");
 
 renderUpgradeButtons();
 updateDisplay();
