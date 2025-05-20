@@ -1,0 +1,55 @@
+body {
+  background: #000;
+  color: #0f0;
+  font-family: monospace;
+  text-align: center;
+  margin: 20px;
+}
+
+.container {
+  max-width: 600px;
+  margin: auto;
+}
+
+button {
+  margin-top: 10px;
+  padding: 10px 20px;
+  background: #222;
+  color: #fff;
+  border: 1px solid #444;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+button.locked {
+  color: #777;
+  background: #111;
+  border-color: #222;
+  cursor: not-allowed;
+}
+
+#upgrades button {
+  display: block;
+  margin: 6px auto;
+  width: 90%;
+}
+
+#goalTracker {
+  font-size: 14px;
+  margin-bottom: 10px;
+}
+
+#lorelog {
+  margin-top: 20px;
+  font-size: 12px;
+  max-height: 150px;
+  overflow-y: auto;
+  border-top: 1px dashed #0f0;
+  padding-top: 10px;
+  text-align: left;
+  white-space: pre-wrap;
+}
+
+#resetBtnContainer {
+  margin-top: 20px;
+}
