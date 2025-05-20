@@ -1,3 +1,1 @@
-document.getElementById("clickBtn").addEventListener("click", () => {
-  alert("Plunge!");
-});
+document.getElementById("clickBtn").addEventListener("click", () => { console.log("Real click registered"); });

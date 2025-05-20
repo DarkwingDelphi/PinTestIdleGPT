@@ -1,17 +1,1 @@
-body {
-  font-family: monospace;
-  background-color: black;
-  color: lime;
-  text-align: center;
-}
-.container {
-  max-width: 600px;
-  margin: auto;
-}
-button {
-  background-color: #333;
-  color: #fff;
-  border: none;
-  padding: 10px 20px;
-  font-size: 18px;
-}
+body { background-color: black; color: lime; font-family: monospace; text-align: center; }
