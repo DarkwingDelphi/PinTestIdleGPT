@@ -1,7 +1,8 @@
+
 html, body {
   background: #000;
   color: #0f0;
-  font-family: monospace;
+  font-family: 'Courier New', monospace;
   margin: 0;
   padding: 0;
   touch-action: manipulation;
@@ -12,7 +13,6 @@ html, body {
   padding: 10px;
 }
 .dot-matrix {
-  font-family: 'Courier New', monospace;
   background: #111;
   border: 2px dotted #0f0;
   padding: 10px;
@@ -28,47 +28,17 @@ html, body {
 }
 button {
   margin: 6px 0;
-  padding: 8px 14px;
-  font-size: 16px;
+  padding: 6px 10px;
+  font-size: 14px;
   background: #222;
-  color: #fff;
-  border: 1px solid #444;
+  color: #0f0;
+  border: 1px solid #0f0;
   width: 100%;
 }
 button.locked {
   background: #111;
-  color: #555;
-  border-color: #222;
-}
-#upgrades button {
-  margin-top: 6px;
-}
-.button-row {
-  display: flex;
-  justify-content: space-between;
-  gap: 10px;
-}
-.button-row button {
-  flex: 1;
-}
-#lorelog {
-  margin: 10px 0;
-  font-size: 12px;
-  max-height: 160px;
-  overflow-y: auto;
-  padding-top: 10px;
-  border-top: 1px dashed #0f0;
-  white-space: pre-wrap;
-  text-align: left;
-}
-
-#444;
-  width: 100%;
-}
-button.locked {
-  background: #111;
-  color: #555;
-  border-color: #222;
+  color: #444;
+  border-color: #333;
 }
 #upgrades button {
   margin-top: 6px;
