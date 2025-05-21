@@ -1,4 +1,4 @@
-let score = 0, dust = 0, shotMult = 1, bonusMult = 1, drainTimer = 30, loreIndex = 0;
+let score = 0, dust = 0, shotMult = 1, bonusMult = 1, loreIndex = 0;
 let passiveRate = 0, reflexTone = "glitchy";
 let tableStatus = "Stable";
 
@@ -18,7 +18,7 @@ const loreEntries = {
 const upgrades = [
   { name: "Auto-Plunger", desc: "+1 passive pts/sec", cost: 10, unlock: 10, effect: () => passiveRate += 1 },
   { name: "Power Flipper Relay", desc: "+1 click value", cost: 25, unlock: 25, effect: () => shotMult += 1 },
-  { name: "Multiball Joel Driver", desc: "+1 Dust per Drain", cost: 50, unlock: 50, effect: () => dust += 1 },
+  { name: "Multiball Joel Driver", desc: "+1 Dust per Drain", cost: 50, unlock: 50, effect: () => {} },
   { name: "Combo Gate: Jim Protocol", desc: "+2 click value", cost: 75, unlock: 75, effect: () => shotMult += 2 },
   { name: "Bonus Tally: Kenny’s Circuit", desc: "+2 Drain bonus", cost: 100, unlock: 100, effect: () => bonusMult += 2 },
   { name: "Collapse Protocol (Locked)", desc: "???", cost: 9999, unlock: 1000, locked: true }
@@ -76,6 +76,16 @@ function pushLore() {
 document.getElementById("clickBtn").addEventListener("click", () => {
   score += shotMult;
   updateUI();
+});
+
+document.getElementById("drainBtn").addEventListener("click", () => {
+  const drainedDust = Math.floor(score * bonusMult / 10);
+  if (drainedDust > 0) {
+    dust += drainedDust;
+    score = 0;
+    pushLore();
+    updateUI();
+  }
 });
 
 setInterval(() => {

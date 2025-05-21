@@ -3,16 +3,15 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>Reflex v6.1.1</title>
+  <title>Reflex v6.2.0</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <div class="container">
     <h1>T1LT-S3R4PH: Intergalactic Pinball Protocol</h1>
-    <div id="lorelog"></div>
-    <div id="scoreboard">
-      Points: <span id="score">0</span> |
-      Dust: <span id="dust">0</span>
+    <div id="scoreboard" class="dot-matrix">
+      <div>Points: <span id="score">0</span></div>
+      <div>Dust: <span id="dust">0</span></div>
     </div>
     <div id="multipliers">
       Shot Mult: <span id="shotMult">1</span> |
@@ -20,9 +19,11 @@
     </div>
     <div id="statusTracker">Table Status: <span id="status">Stable</span></div>
     <div id="goalTracker">Next unlock at: <span id="goal">--</span></div>
-    <div class="upgrade-group" id="coreUpgradesTitle">Core Systems</div>
-    <div class="upgrade-group" id="upgrades"></div>
+    <div id="upgradesTitle">Upgrades</div>
+    <div id="upgrades"></div>
     <button id="clickBtn">Plunge Ball</button>
+    <button id="drainBtn">Drain</button>
+    <div id="lorelog"></div>
   </div>
   <script src="script.js"></script>
 </body>
