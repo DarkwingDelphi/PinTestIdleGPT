@@ -6,13 +6,11 @@ body {
   margin: 0;
   padding: 0;
 }
-
 .container {
   max-width: 600px;
   margin: auto;
   padding: 20px;
 }
-
 button {
   margin-top: 12px;
   padding: 10px 20px;
@@ -22,19 +20,16 @@ button {
   border: 1px solid #444;
   cursor: pointer;
 }
-
 button.locked {
   background: #111;
   color: #555;
   border-color: #222;
 }
-
 #upgrades button {
   display: block;
   margin: 8px auto;
   width: 90%;
 }
-
 #clickBtn {
   position: fixed;
   bottom: 20px;
@@ -42,14 +37,18 @@ button.locked {
   transform: translateX(-50%);
   width: 90%;
 }
-
 #lorelog {
   margin-top: 20px;
   font-size: 12px;
   max-height: 160px;
   overflow-y: auto;
   padding-top: 10px;
-  border-top: 1px dashed #0f0;
+  border-bottom: 1px dashed #0f0;
   white-space: pre-wrap;
   text-align: left;
+  margin-bottom: 10px;
+}
+.upgrade-group {
+  font-weight: bold;
+  margin-top: 15px;
 }
