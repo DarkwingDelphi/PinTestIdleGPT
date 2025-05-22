@@ -2,21 +2,21 @@
 let score = 0, dust = 0, shotMult = 1, bonusMult = 1, loreIndex = 0;
 let passiveRate = 0, reflexTone = "glitchy";
 let tableStatus = "Stable";
+let drainInterval = 30;
+let drainTimer = drainInterval;
 
 const loreEntries = {
   glitchy: [
-    "T1LT-S3R4PH online.",
-    "Plunger calibrated.",
-    "Pop bumpers humming.",
-    "Ball save initialized.",
-    "Upgrade: Flip installed.",
-    "Upgrade: Drop Target enabled.",
-    "Upgrade: Orbit Lane mapped.",
-    "Upgrade: Vertical Upkick loaded.",
-    "Upgrade: Multiball Node Joel synchronized.",
-    "Upgrade: Combo Gate Jim linked.",
-    "Upgrade: Kenny's Circuit spooling.",
-    "Collapse Protocol... pending..."
+    "T1LT-S3R4PH awakens...",
+    "Ball Save: Initialized.",
+    "Target cluster linked.",
+    "Upgrade: Flip calibrated.",
+    "Upgrade: Orbit Lane active.",
+    "Upgrade: Joel Node online.",
+    "Upgrade: Jim Gate synchronized.",
+    "Wizard Dust detected in memory banks...",
+    "Tilt correction in progress...",
+    "Collapse Protocol... calculating."
   ]
 };
 
@@ -37,12 +37,13 @@ function updateUI() {
   document.getElementById("dust").textContent = dust;
   document.getElementById("shotMult").textContent = shotMult;
   document.getElementById("bonusMult").textContent = bonusMult;
+  document.getElementById("drainCountdown").textContent = drainTimer;
 
   const upgradesDiv = document.getElementById("upgrades");
   upgradesDiv.innerHTML = "";
   let nextGoal = Infinity;
 
-  upgrades.forEach((upg, i) => {
+  upgrades.forEach(upg => {
     const visible = score >= upg.unlock || upg.locked;
     if (!visible) {
       nextGoal = Math.min(nextGoal, upg.unlock);
@@ -51,7 +52,7 @@ function updateUI() {
     const btn = document.createElement("button");
     const canAfford = score >= upg.cost;
     btn.className = canAfford ? "" : "locked";
-    btn.textContent = `${upg.name}`;
+    btn.textContent = upg.name;
     btn.disabled = !canAfford || upg.locked;
     btn.onclick = () => {
       if (score >= upg.cost && !upg.locked) {
@@ -86,18 +87,22 @@ document.getElementById("clickBtn").addEventListener("click", () => {
   updateUI();
 });
 
-document.getElementById("drainBtn").addEventListener("click", () => {
-  const drainedDust = Math.floor(score * bonusMult / 10);
-  if (drainedDust > 0) {
-    dust += drainedDust;
-    score = 0;
-    pushLore();
-    updateUI();
+function autoDrainTick() {
+  drainTimer--;
+  if (drainTimer <= 0) {
+    const drainedDust = Math.floor(score * bonusMult / 10);
+    if (drainedDust > 0) {
+      dust += drainedDust;
+      score = 0;
+      pushLore();
+    }
+    drainTimer = drainInterval;
   }
-});
+}
 
 setInterval(() => {
   score += passiveRate;
+  autoDrainTick();
   updateUI();
 }, 1000);
 

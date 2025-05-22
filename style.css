@@ -61,3 +61,8 @@ button.locked {
   white-space: pre-wrap;
   text-align: left;
 }
+#drainTimer {
+  font-size: 13px;
+  color: #0f0;
+  margin-bottom: 10px;
+}
