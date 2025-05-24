@@ -1,40 +1,41 @@
 
-let score = 0, dust = 0, shotMult = 1, bonusMult = 1, loreIndex = 0;
+let score = 0, dust = 0, momentum = 0;
+let shotMult = 1, bonusMult = 1, loreIndex = 0;
 let passiveRate = 0, reflexTone = "glitchy";
 let tableStatus = "Stable";
-let drainInterval = 30;
-let drainTimer = drainInterval;
+let drainInterval = 30, drainTimer = drainInterval;
 
 const loreEntries = {
   glitchy: [
-    "T1LT-S3R4PH awakens...",
-    "Ball Save: Initialized.",
-    "Target cluster linked.",
-    "Upgrade: Flip calibrated.",
-    "Upgrade: Orbit Lane active.",
-    "Upgrade: Joel Node online.",
-    "Upgrade: Jim Gate synchronized.",
-    "Wizard Dust detected in memory banks...",
-    "Tilt correction in progress...",
-    "Collapse Protocol... calculating."
+    "T1LT-S3R4PH reinitializing...",
+    "Memory core warmup complete.",
+    "Launching first ball...",
+    "System scan: EM table detected.",
+    "Unlocking Flip Subroutine...",
+    "Orbit synchronization achieved.",
+    "Node activity: Joel confirmed.",
+    "Wizard Dust signature identified...",
+    "Table stress: Wavering.",
+    "Collapse Protocol queued."
   ]
 };
 
 const upgrades = [
-  { name: "Flip", unlock: 10, cost: 10, effect: () => passiveRate += 1 },
+  { name: "Flip", unlock: 10, cost: 10, effect: () => { passiveRate += 1; momentum += 1; }},
   { name: "Drop Target", unlock: 20, cost: 20, effect: () => shotMult += 1 },
-  { name: "Pop Bumper", unlock: 40, cost: 40, effect: () => {} },
+  { name: "Pop Bumper", unlock: 40, cost: 40, effect: () => momentum += 1 },
   { name: "Orbit Lane", unlock: 60, cost: 60, effect: () => shotMult += 2 },
   { name: "Vertical Upkick", unlock: 80, cost: 80, effect: () => bonusMult += 1 },
   { name: "Joel Node", unlock: 100, cost: 100, effect: () => dust += 1 },
   { name: "Jim Gate", unlock: 150, cost: 150, effect: () => shotMult += 3 },
-  { name: "Kenny's Circuit", unlock: 200, cost: 200, effect: () => bonusMult += 2 },
+  { name: "Kenny’s Circuit", unlock: 200, cost: 200, effect: () => bonusMult += 2 },
   { name: "Collapse Protocol (Locked)", unlock: 999, cost: 9999, locked: true }
 ];
 
 function updateUI() {
   document.getElementById("score").textContent = score;
   document.getElementById("dust").textContent = dust;
+  document.getElementById("momentum").textContent = momentum;
   document.getElementById("shotMult").textContent = shotMult;
   document.getElementById("bonusMult").textContent = bonusMult;
   document.getElementById("drainCountdown").textContent = drainTimer;
@@ -93,6 +94,7 @@ function autoDrainTick() {
     const drainedDust = Math.floor(score * bonusMult / 10);
     if (drainedDust > 0) {
       dust += drainedDust;
+      momentum += 1;
       score = 0;
       pushLore();
     }
