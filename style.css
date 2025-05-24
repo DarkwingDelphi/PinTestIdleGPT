@@ -27,13 +27,14 @@ html, body {
   margin-bottom: 10px;
 }
 button {
-  margin: 6px 0;
-  padding: 6px 10px;
-  font-size: 14px;
+  margin: 4px 0;
+  padding: 4px 6px;
+  font-size: 12px;
   background: #222;
   color: #0f0;
   border: 1px solid #0f0;
   width: 100%;
+  box-sizing: border-box;
 }
 button.locked {
   background: #111;
@@ -41,12 +42,12 @@ button.locked {
   border-color: #333;
 }
 #upgrades button {
-  margin-top: 6px;
+  margin-top: 4px;
 }
 .button-row {
   display: flex;
   justify-content: space-between;
-  gap: 10px;
+  gap: 8px;
 }
 .button-row button {
   flex: 1;
