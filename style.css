@@ -1,6 +1,6 @@
 body {
   background: black;
-  color: #00ff88;
+  color: #FF9900;
   font-family: 'VT323', monospace;
   margin: 0;
   padding: 0;
@@ -17,12 +17,12 @@ body {
 .version {
   text-align: center;
   font-size: 1.2rem;
-  color: #44ffaa;
+  color: #FF9900;
   margin-bottom: 10px;
 }
 .scoreboard {
   background: #111;
-  border: 2px solid #00ff88;
+  border: 2px solid #FF9900;
   padding: 10px;
   margin-bottom: 20px;
   font-size: 1.4rem;
@@ -33,7 +33,7 @@ body {
 .section h2 {
   font-size: 1.5rem;
   margin-top: 30px;
-  border-bottom: 1px solid #00ff88;
+  border-bottom: 1px solid #FF9900;
   padding-bottom: 5px;
 }
 .generator-list, .upgrade-list {
@@ -48,12 +48,12 @@ body {
 .description {
   flex: 1;
   padding-right: 10px;
-  color: #aaffcc;
+  color: #FF9900;
 }
 button {
   background: #111;
-  border: 2px solid #00ff88;
-  color: #00ff88;
+  border: 2px solid #FF9900;
+  color: #FF9900;
   font-size: 1rem;
   padding: 6px 10px;
   min-width: 160px;
@@ -65,7 +65,7 @@ button:disabled {
 }
 .log-box {
   background: #111;
-  border-top: 2px solid #00ff88;
+  border-top: 2px solid #FF9900;
   margin-top: 30px;
   padding: 10px;
   height: 140px;

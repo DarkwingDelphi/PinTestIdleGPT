@@ -44,6 +44,7 @@ let upgrades = [
     effect: () => {
       drainInterval += 5000;
       resetDrain();
+setupPlungeButton();
       log("Drain interval extended.");
     },
     description: "+5s to drain delay"
@@ -128,6 +129,19 @@ function autoDrain() {
 }
 
 function drainTick() {
+  clearInterval(drainHandle);
+  const bonus = Math.floor(points * bonusMultiplier);
+  points += bonus;
+  if (momentum >= 5) {
+    dust += 1;
+    setDMD("PERFECT DRAIN! +1 Dust");
+  } else {
+    setDMD("DRAINED! BONUS +" + bonus);
+  }
+  bonusMultiplier = 1;
+  startDrainTimer();
+  updateUI();
+
   const bonus = Math.floor(points * bonusMultiplier);
   points += bonus;
   if (momentum >= 5) {
@@ -140,17 +154,54 @@ function drainTick() {
 
   autoDrain();
   resetDrain();
+setupPlungeButton();
 }
 
 function resetDrain() {
+  startDrainTimer();
+}
   clearInterval(drainHandle);
   drainHandle = setInterval(drainTick, drainInterval);
 }
 
 resetDrain();
+setupPlungeButton();
 updateUI();
 
 
 function setDMD(msg) {
   document.getElementById("dmd-message").textContent = msg;
+}
+
+
+function startDrainTimer() {
+  drainCountdown = drainInterval / 1000;
+  setDMD("PLUNGE READY");
+  clearInterval(drainHandle);
+  drainHandle = setInterval(() => {
+    drainCountdown--;
+    if (drainCountdown <= 5) {
+      setDMD("DRAIN IN " + drainCountdown + "s");
+    }
+    if (drainCountdown <= 0) {
+      drainTick();
+    }
+    updateUI();
+  }, 1000);
+}
+
+// Add Plunge Ball button
+function setupPlungeButton() {
+  const container = document.querySelector(".container");
+  const plungeBtn = document.createElement("button");
+  plungeBtn.textContent = "PLUNGE!";
+  plungeBtn.style.fontSize = "2rem";
+  plungeBtn.style.margin = "10px auto";
+  plungeBtn.style.display = "block";
+  plungeBtn.onclick = () => {
+    points += 1;
+    log("Plunge! +1 Point");
+    updateUI();
+  };
+  container.insertBefore(plungeBtn, document.querySelector(".scoreboard"));
 }
