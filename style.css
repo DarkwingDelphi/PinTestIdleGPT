@@ -72,3 +72,15 @@ button:disabled {
   overflow-y: auto;
   font-size: 1rem;
 }
+
+
+.dmd-message {
+  text-align: center;
+  font-size: 1.8rem;
+  color: #ff9900;
+  background: black;
+  padding: 8px;
+  border-bottom: 2px solid #ff9900;
+  margin-bottom: 10px;
+  font-family: 'VT323', monospace;
+}

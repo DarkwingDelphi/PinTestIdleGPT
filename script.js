@@ -1,6 +1,8 @@
 let points = 0;
 let momentum = 0;
 let dust = 0;
+let bonusMultiplier = 1;
+let drainCountdown = 10;
 
 let generators = [
   {
@@ -126,6 +128,16 @@ function autoDrain() {
 }
 
 function drainTick() {
+  const bonus = Math.floor(points * bonusMultiplier);
+  points += bonus;
+  if (momentum >= 5) {
+    dust += 1;
+    setDMD("PERFECT DRAIN! +1 Dust");
+  } else {
+    setDMD("DRAINED! BONUS +" + bonus);
+  }
+  bonusMultiplier = 1;
+
   autoDrain();
   resetDrain();
 }
@@ -137,3 +149,8 @@ function resetDrain() {
 
 resetDrain();
 updateUI();
+
+
+function setDMD(msg) {
+  document.getElementById("dmd-message").textContent = msg;
+}
