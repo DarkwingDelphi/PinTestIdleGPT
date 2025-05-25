@@ -84,3 +84,14 @@ button:disabled {
   margin-bottom: 10px;
   font-family: 'VT323', monospace;
 }
+
+.plunge {
+  display: block;
+  margin: 12px auto;
+  font-size: 2rem;
+  background: black;
+  color: #FF9900;
+  border: 2px solid #FF9900;
+  padding: 10px 20px;
+  cursor: pointer;
+}

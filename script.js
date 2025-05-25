@@ -62,6 +62,7 @@ function updateUI() {
 
   const genArea = document.getElementById("generators");
   genArea.innerHTML = "";
+  
   generators.forEach((gen, i) => {
     const row = document.createElement("div");
     row.className = "row";
@@ -77,7 +78,7 @@ function updateUI() {
       if (points >= gen.cost) {
         points -= gen.cost;
         gen.count++;
-        log(`${gen.name} activated.`);
+        log(`${gen.name} purchased.`);
         gen.effect();
         updateUI();
       }
@@ -88,8 +89,10 @@ function updateUI() {
     genArea.appendChild(row);
   });
 
+
   const upgArea = document.getElementById("upgrades");
   upgArea.innerHTML = "";
+  
   upgrades.forEach((upg, i) => {
     const row = document.createElement("div");
     row.className = "row";
@@ -113,6 +116,7 @@ function updateUI() {
     row.appendChild(btn);
     upgArea.appendChild(row);
   });
+
 }
 
 function log(msg) {
@@ -205,3 +209,10 @@ function setupPlungeButton() {
   };
   container.insertBefore(plungeBtn, document.querySelector(".scoreboard"));
 }
+
+
+document.getElementById("plunge-btn").onclick = () => {
+  points += 1;
+  log("Plunge! +1 Point");
+  updateUI();
+};
