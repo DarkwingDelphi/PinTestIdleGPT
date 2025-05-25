@@ -1,40 +1,35 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>Reflex v6.4</title>
-  <link rel="stylesheet" href="style.css" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>T1LT S3R4PH</title>
+  <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div class="main-column">
-    <h1>Reflex v6.4 – T1LT-S3R4PH Protocol</h1>
+  <div class="container">
+    <h1 class="title">T1LT S3R4PH</h1>
+    <p class="version">Version 6.5.3</p>
 
-    <div id="scoreboard" class="dot-matrix">
-      <div>Points: <span id="score">0</span></div>
-      <div>Wizard Dust: <span id="dust">0</span></div>
-      <div>Momentum: <span id="momentum">0</span></div>
+    <div class="scoreboard">
+      <div class="resource">Points: <span id="points">0</span></div>
+      <div class="resource">Momentum: <span id="momentum">0</span></div>
+      <div class="resource">Wizard Dust: <span id="dust">0</span></div>
     </div>
 
-    <div class="info-bar">
-      <div>Shot Mult: <span id="shotMult">1</span></div>
-      <div>Bonus Mult: <span id="bonusMult">1</span></div>
-      <div>Table Status: <span id="status">Stable</span></div>
-      <div>Next Unlock: <span id="goal">--</span></div>
+    <div class="section">
+      <h2>Generators</h2>
+      <div id="generators" class="generator-list"></div>
     </div>
 
-    <div id="drainTimer">Auto-Drain in: <span id="drainCountdown">--</span>s</div>
-
-    <div id="lorelog"></div>
-
-    <div id="upgradesTitle">Upgrades</div>
-    <div id="upgrades"></div>
-
-    <div class="button-row">
-      <button id="clickBtn">Plunge</button>
+    <div class="section">
+      <h2>Upgrades</h2>
+      <div id="upgrades" class="upgrade-list"></div>
     </div>
+
+    <div id="log" class="log-box"></div>
   </div>
-
   <script src="script.js"></script>
 </body>
 </html>

@@ -1,69 +1,74 @@
-
-html, body {
-  background: #000;
-  color: #0f0;
-  font-family: 'Courier New', monospace;
+body {
+  background: black;
+  color: #00ff88;
+  font-family: 'VT323', monospace;
   margin: 0;
   padding: 0;
-  touch-action: manipulation;
 }
-.main-column {
-  max-width: 480px;
+.container {
+  max-width: 700px;
   margin: auto;
-  padding: 10px;
+  padding: 20px;
 }
-.dot-matrix {
+.title {
+  text-align: center;
+  font-size: 3rem;
+}
+.version {
+  text-align: center;
+  font-size: 1.2rem;
+  color: #44ffaa;
+  margin-bottom: 10px;
+}
+.scoreboard {
   background: #111;
-  border: 2px dotted #0f0;
+  border: 2px solid #00ff88;
   padding: 10px;
-  margin-bottom: 10px;
+  margin-bottom: 20px;
+  font-size: 1.4rem;
 }
-.info-bar {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 4px;
-  font-size: 14px;
-  margin-bottom: 10px;
-}
-button {
+.resource {
   margin: 4px 0;
-  padding: 4px 6px;
-  font-size: 12px;
-  background: #222;
-  color: #0f0;
-  border: 1px solid #0f0;
-  width: 100%;
-  box-sizing: border-box;
 }
-button.locked {
-  background: #111;
-  color: #444;
-  border-color: #333;
+.section h2 {
+  font-size: 1.5rem;
+  margin-top: 30px;
+  border-bottom: 1px solid #00ff88;
+  padding-bottom: 5px;
 }
-#upgrades button {
-  margin-top: 4px;
+.generator-list, .upgrade-list {
+  margin-top: 10px;
 }
-.button-row {
+.row {
   display: flex;
   justify-content: space-between;
-  gap: 8px;
+  align-items: center;
+  margin-bottom: 8px;
 }
-.button-row button {
+.description {
   flex: 1;
+  padding-right: 10px;
+  color: #aaffcc;
 }
-#lorelog {
-  margin: 10px 0;
-  font-size: 12px;
-  max-height: 160px;
+button {
+  background: #111;
+  border: 2px solid #00ff88;
+  color: #00ff88;
+  font-size: 1rem;
+  padding: 6px 10px;
+  min-width: 160px;
+  cursor: pointer;
+}
+button:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+.log-box {
+  background: #111;
+  border-top: 2px solid #00ff88;
+  margin-top: 30px;
+  padding: 10px;
+  height: 140px;
   overflow-y: auto;
-  padding-top: 10px;
-  border-top: 1px dashed #0f0;
-  white-space: pre-wrap;
-  text-align: left;
-}
-#drainTimer {
-  font-size: 13px;
-  color: #0f0;
-  margin-bottom: 10px;
+  font-size: 1rem;
 }
